@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://abdo:abdo@dev-1y6al.mongodb.net/test?retryWrites=true&w=majority",
+  "jwtsecret": "mysecretjwtwebtokeb",
+  "githubClientId": "0b61b899c07973fd88c5",
+  "githubSecret": "7da0cc4368664e964fd967e4cc79bf71b616d486"
+}
