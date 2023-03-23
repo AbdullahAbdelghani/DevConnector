@@ -25,6 +25,7 @@
     "passport-jwt": "^4.0.0",
     "react-router-dom": "^6.9.0",
     "request": "^2.88.0",
+    "uuidv4": "^6.2.13",
     "validator": "^13.9.0"
   },
   "devDependencies": {
