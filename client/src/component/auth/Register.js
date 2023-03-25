@@ -4,8 +4,10 @@ import { setAlert } from "../../actions/alert";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import Alert from "../layout/Alert";
+import { register } from "../../actions/auth";
+import { Navigate } from "react-router-dom";
 
-const Register = (props) => {
+const Register = ({ setAlert, register, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -21,9 +23,14 @@ const Register = (props) => {
   const onSubmit = (e) => {
     e.preventDefault();
     password !== password2
-      ? props.setAlert("Password don't match", "danger")
-      : console.log("Submit success", formData);
+      ? setAlert("Password don't match", "danger")
+      : register({ name, email, password });
   };
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
     <Fragment>
       <Alert />
@@ -39,7 +46,6 @@ const Register = (props) => {
             name="name"
             value={name}
             onChange={(e) => onChange(e)}
-            required
           />
         </div>
         <div className="form-group">
@@ -49,7 +55,6 @@ const Register = (props) => {
             name="email"
             value={email}
             onChange={(e) => onChange(e)}
-            required
           />
           <small className="form-text">
             This site uses Gravatar so if you want a profile image, use a
@@ -61,7 +66,6 @@ const Register = (props) => {
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
             value={password}
             onChange={(e) => onChange(e)}
           />
@@ -71,7 +75,6 @@ const Register = (props) => {
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            minLength="6"
             value={password2}
             onChange={(e) => onChange(e)}
           />
@@ -87,6 +90,12 @@ const Register = (props) => {
 
 Register.propTypes = {
   setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAlert })(Register);
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { setAlert, register })(Register);
