@@ -8,8 +8,14 @@ const Navbar = ({ isAuthenticated = false, loading = false, logout }) => {
   const authLinks = (
     <ul>
       <li>
+        <NavLink to="/dashboard">
+          <i className="fas fa-user"></i>{" "}
+          <span className="hide-sm">Dashboard</span>
+        </NavLink>
+      </li>
+      <li>
         <NavLink onClick={logout} to="/">
-          <i className="fas fa-sign-out-alt"> </i>{" "}
+          <i className="fas fa-sign-out-alt"></i>{" "}
           <span className="hide-sm">Logout</span>
         </NavLink>
       </li>
@@ -28,7 +34,6 @@ const Navbar = ({ isAuthenticated = false, loading = false, logout }) => {
       </li>
     </ul>
   );
-  console.log(loading, isAuthenticated);
   return (
     <>
       <nav className="navbar bg-dark">
@@ -51,7 +56,7 @@ const Navbar = ({ isAuthenticated = false, loading = false, logout }) => {
 Navbar.propTypes = {
   isAuthenticated: PropTypes.bool,
   loading: PropTypes.bool,
-  logut: PropTypes.func.isRequired,
+  logut: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({

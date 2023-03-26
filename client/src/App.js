@@ -3,6 +3,8 @@ import Navbar from "./component/layout/Navbar";
 import Landing from "./component/layout/Landing";
 import Login from "./component/auth/Login";
 import Register from "./component/auth/Register";
+import Dashboard from "./component/dashboard/Dashboard";
+import PrivateRoute from "./component/routing/PrivateRoute";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Provider } from "react-redux";
@@ -29,6 +31,15 @@ const App = () => {
           <Route exact path="/" element={<Landing />} />
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
+          <Route
+            exact
+            path="/dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </Router>
     </Provider>
