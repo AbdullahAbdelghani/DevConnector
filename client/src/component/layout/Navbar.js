@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Outlet, NavLink } from "react-router-dom";
 import { logout } from "../../actions/auth";
+import Alert from "../../reducers/alert";
 
 const Navbar = ({ isAuthenticated = false, loading = false, logout }) => {
   const authLinks = (
