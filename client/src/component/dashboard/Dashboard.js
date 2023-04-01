@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { getCurrentProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import Alert from "../layout/Alert";
+import { DashboardActions } from "./DashboardActions";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -25,13 +26,7 @@ const Dashboard = ({
       </p>
       {profile !== null ? (
         <Fragment>
-          <p>Would you like to edit your profile ?</p>
-          <Link
-            to="/edit-profile"
-            state={{ edit: true }}
-            className="btn btn-primary my-1">
-            Edit Profile
-          </Link>
+          <DashboardActions />
         </Fragment>
       ) : (
         <Fragment>
