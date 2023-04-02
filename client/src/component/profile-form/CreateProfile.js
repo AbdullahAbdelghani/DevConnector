@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../actions/profile";
 import Alert from "../layout/Alert";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const CreateProfile = ({ profileState, createProfile }) => {
   let profile = { ...profileState };
@@ -61,9 +61,9 @@ const CreateProfile = ({ profileState, createProfile }) => {
     });
   };
   return (
-    <Fragment>
+    <div className="container">
       <Alert />
-      <section className="container">
+      <section>
         <h1 className="large text-primary">
           {edit ? "Edit" : "Create"} Profile
         </h1>
@@ -234,12 +234,12 @@ const CreateProfile = ({ profileState, createProfile }) => {
             </>
           )}
           <input type="submit" className="btn btn-primary my-1" />
-          <a className="btn btn-light my-1" href="dashboard.html">
+          <Link className="btn btn-light my-1" to="/dashboard">
             Go Back
-          </a>
+          </Link>
         </form>
       </section>
-    </Fragment>
+    </div>
   );
 };
 

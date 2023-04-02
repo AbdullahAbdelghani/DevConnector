@@ -22,7 +22,7 @@ const AddEducation = ({ addEducation }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   return (
-    <Fragment>
+    <div className="container">
       <h1 className="large text-primary">Add Your Education</h1>
       <p className="lead">
         <i className="fas fa-graduation-cap"></i> Add any school, bootcamp, etc
@@ -112,7 +112,7 @@ const AddEducation = ({ addEducation }) => {
           Go Back
         </Link>
       </form>
-    </Fragment>
+    </div>
   );
 };
 

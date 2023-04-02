@@ -21,7 +21,7 @@ const AddExperience = ({ addExperience }) => {
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
   return (
-    <Fragment>
+    <div className="container">
       <h1 className="large text-primary">Add An Experience</h1>
       <p className="lead">
         <i className="fas fa-code-branch"></i> Add any developer/programming
@@ -111,7 +111,7 @@ const AddExperience = ({ addExperience }) => {
           Go Back
         </Link>
       </form>
-    </Fragment>
+    </div>
   );
 };
 
