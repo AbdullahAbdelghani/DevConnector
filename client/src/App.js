@@ -9,12 +9,8 @@ import CreateProfile from "./component/profile-form/CreateProfile";
 import AddExperience from "./component/profile-form/AddExperience";
 import AddEducation from "./component/profile-form/AddEducation";
 import Profiles from "./component/profiles/Profiles";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Switch,
-} from "react-router-dom";
+import Profile from "./component/profile/Profile";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import store from "./store";
@@ -41,6 +37,7 @@ const App = () => {
           <Route exact path="/register" element={<Register />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/profiles" element={<Profiles />} />
+          <Route exact path="/profile/:id" element={<Profile />} />
           <Route
             exact
             path="/dashboard"

@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../actions/profile";
@@ -7,6 +7,7 @@ import { useNavigate, useLocation, Link } from "react-router-dom";
 
 const CreateProfile = ({ profileState, createProfile }) => {
   let profile = { ...profileState };
+  let value = "";
   const loc = useLocation();
   const { edit } = loc.state;
   let navigate = useNavigate();
@@ -55,9 +56,19 @@ const CreateProfile = ({ profileState, createProfile }) => {
     linkedin,
   } = formData;
   const onChange = (e) => {
+    value =
+      (e.target.name === "website" ||
+        e.target.name === "facebook" ||
+        e.target.name === "youtube" ||
+        e.target.name === "twitter" ||
+        e.target.name === "instagram" ||
+        e.target.name === "linkedin") &&
+      !e.target.value.startsWith("https://")
+        ? "https://" + e.target.value
+        : e.target.value;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
   };
   return (
