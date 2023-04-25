@@ -1,6 +1,7 @@
 import { CREATE_POST, GET_POST, GET_POSTS, POST_ERROR } from "../actions/types";
 const initialState = {
   posts: [],
+  post: null,
   loading: true,
   error: {},
 };
@@ -10,10 +11,15 @@ export default function (state = initialState, action) {
   switch (type) {
     case CREATE_POST:
     case GET_POSTS:
-    case GET_POST:
       return {
         ...state,
         posts: payload,
+        loading: false,
+      };
+    case GET_POST:
+      return {
+        ...state,
+        post: payload,
         loading: false,
       };
     case POST_ERROR:
@@ -21,6 +27,7 @@ export default function (state = initialState, action) {
         ...state,
         error: payload,
         posts: null,
+        post: null,
         loading: false,
       };
     default:

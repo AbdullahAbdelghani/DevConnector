@@ -11,6 +11,7 @@ import AddEducation from "./component/profile-form/AddEducation";
 import Profiles from "./component/profiles/Profiles";
 import Profile from "./component/profile/Profile";
 import Posts from "./component/posts/Posts";
+import Post from "./component/post/Post";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Provider } from "react-redux";
@@ -39,7 +40,24 @@ const App = () => {
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/profiles" element={<Profiles />} />
           <Route exact path="/profile/:id" element={<Profile />} />
-          <Route exact path="/posts" element={<Posts />} />
+          <Route
+            exact
+            path="/posts"
+            element={
+              <PrivateRoute>
+                <Posts />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            exact
+            path="/post/:id"
+            element={
+              <PrivateRoute>
+                <Post />
+              </PrivateRoute>
+            }
+          />
           <Route
             exact
             path="/dashboard"
