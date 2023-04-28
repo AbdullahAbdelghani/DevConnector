@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 
 const CommentForm = ({ postId, submit }) => {
   const [text, setText] = useState("");
@@ -14,6 +13,7 @@ const CommentForm = ({ postId, submit }) => {
         onSubmit={(e) => {
           e.preventDefault();
           submit(postId, text);
+          setText("");
         }}>
         <textarea
           name="text"

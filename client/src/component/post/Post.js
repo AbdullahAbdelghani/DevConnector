@@ -4,10 +4,19 @@ import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import PostContent from "./PostContent";
 import CommentForm from "./CommentForm";
+import Comment from "./Comment";
+import Alert from "../layout/Alert";
 import { useParams, Link } from "react-router-dom";
 import { getPostById, addComment } from "../../actions/post";
 
-const Post = ({ getPostById, post: { post, loading }, auth, addComment }) => {
+const Post = ({
+  getPostById,
+  post: { post, loading },
+  auth: {
+    user: { _id },
+  },
+  addComment,
+}) => {
   const submit = (postId, text) => {
     addComment(postId, text);
   };
@@ -21,15 +30,26 @@ const Post = ({ getPostById, post: { post, loading }, auth, addComment }) => {
         <Spinner />
       ) : (
         <Fragment>
+          <Alert />
           <Link to="/posts" className="btn">
             Back To Posts
           </Link>
           <PostContent post={post} />
-          <CommentForm
-            postId={post._id}
-            userId={auth.user._id}
-            submit={submit}
-          />
+          <CommentForm postId={post._id} userId={_id} submit={submit} />
+          {post.comments.length > 0 ? (
+            <div className="comments">
+              {post.comments.map((comment) => (
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  userId={_id}
+                  postId={post._id}
+                />
+              ))}
+            </div>
+          ) : (
+            <h4>No comments</h4>
+          )}
         </Fragment>
       )}
     </div>

@@ -4,7 +4,7 @@ import { createPost } from "../../actions/post";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const PostCreation = ({ id, createPost }) => {
+const PostForm = ({ id, createPost }) => {
   let navigate = useNavigate();
   const [text, setText] = useState("");
   return (
@@ -17,6 +17,7 @@ const PostCreation = ({ id, createPost }) => {
         onSubmit={(e) => {
           e.preventDefault();
           createPost(text, id, navigate);
+          setText("");
         }}>
         <textarea
           name="text"
@@ -31,8 +32,8 @@ const PostCreation = ({ id, createPost }) => {
     </div>
   );
 };
-PostCreation.propTypes = {
+PostForm.propTypes = {
   createPost: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
 };
-export default connect(null, { createPost })(PostCreation);
+export default connect(null, { createPost })(PostForm);

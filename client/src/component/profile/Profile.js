@@ -17,7 +17,10 @@ const Profile = ({ profile: { profile, loading }, auth, getProfileById }) => {
   return (
     <div className="container">
       {profile === null || loading ? (
-        <Spinner />
+        <>
+          <h4>No profile found...</h4>
+          <Spinner />
+        </>
       ) : (
         <Fragment>
           <Link to="/profiles" className="btn btn-light">

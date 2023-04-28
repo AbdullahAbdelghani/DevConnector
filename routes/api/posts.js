@@ -108,7 +108,7 @@ router.put("/like/:id", auth, async (req, res) => {
     }
     post.likes.unshift({ user: req.user.id });
     await post.save();
-    res.json(post.likes);
+    res.json(post);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -136,7 +136,7 @@ router.put("/unlike/:id", auth, async (req, res) => {
       .indexOf(req.user.id);
     post.likes.splice(removeIndex, 1);
     await post.save();
-    res.json(post.likes);
+    res.json(post);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -151,7 +151,6 @@ router.put(
   "/comment/:id",
   [auth, [check("text", "Text is required").not().isEmpty()]],
   async (req, res) => {
-    console.log("hey");
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });

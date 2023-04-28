@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Spinner from "../layout/Spinner";
 import PostItem from "./PostItem";
-import PostCreation from "./PostCreation";
+import PostForm from "./PostForm";
 import { getPosts } from "../../actions/post";
 import Alert from "../layout/Alert";
 
@@ -17,15 +17,17 @@ const Posts = ({ getPosts, id, post: { posts, loading } }) => {
         <Spinner />
       ) : (
         <Fragment>
+          <Alert />
           <h1 className="large text-primary">Posts</h1>
           <p className="lead">
             <i className="fab fa-connectdevelop"></i> Welcome to the community!
           </p>
-          <Alert />
-          <PostCreation id={id} />
+          <PostForm id={id} />
           <div className="posts">
             {posts.length > 0 ? (
-              posts.map((post) => <PostItem key={post._id} post={post} />)
+              posts.map((post) => (
+                <PostItem key={post._id} post={post} userId={id} />
+              ))
             ) : (
               <h4>No posts found...</h4>
             )}
