@@ -119,6 +119,7 @@ export const deletePostAsync = createAsyncThunk<
 >("post/delete", async ({ postId }, { dispatch }) => {
   await axios.delete(`/api/posts/${postId}`);
   dispatch(getPostsAsync());
+  addAlert(dispatch, { msg: "Post Deleted", alertType: "success" });
 });
 
 export const postSlice = createSlice({
