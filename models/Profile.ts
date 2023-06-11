@@ -5,8 +5,8 @@ export type ExperienceType = {
   company: string;
   location: string;
   from: Date;
-  to: Date;
-  current: Boolean;
+  to?: Date;
+  current: boolean;
   description: string;
 };
 
@@ -15,8 +15,8 @@ export type EducationType = {
   degree: string;
   fieldofstudy: string;
   from: Date;
-  to: Date;
-  current: Boolean;
+  to?: Date;
+  current: boolean;
   description: string;
 };
 

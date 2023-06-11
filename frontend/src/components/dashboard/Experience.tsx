@@ -1,22 +1,22 @@
 import { Fragment, FC, JSX } from "react";
 import { ExperienceType } from "../../../../models/Profile";
-import { WithId } from "../../utiles/models";
-import moment from "moment";
+import { transformExperience } from "../../utiles/models";
+import Moment from "react-moment";
 import { deleteExperienceAsync } from "../../reducers/profile";
 import { useAppDispatch } from "../../config/GlobalStateConfig";
 
 const Experience: FC<{ experience: ExperienceType[] }> = ({
   experience,
 }): JSX.Element => {
-  const experienceWithId = experience as WithId<ExperienceType>[];
+  const experienceWithId = experience.map((exp) => transformExperience(exp));
   const dispatch = useAppDispatch();
   const experiences = experienceWithId.map((exp) => (
     <tr key={exp.id}>
-      <td>{exp.company}</td>
+      <td> {exp.company}</td>
       <td className="hide-sm">{exp.title}</td>
       <td>
-        {moment(exp.from).format("YYYY/MM/DD")}-{" "}
-        {exp.to === null ? " Now" : moment(exp.to).format("YYYY/MM/DD")}
+        <Moment format="DD/MM/YYYY">{exp.from}</Moment> -{" "}
+        {exp.to ? "Now" : <Moment format="DD/MM/YYYY">{exp.to}</Moment>}
       </td>
       <td>
         <button

@@ -17,7 +17,7 @@ export type ProfileState = {
   };
 };
 
-type ProfileCreationForm = {
+export type ProfileCreationForm = {
   company: string;
   website: string;
   location: string;
@@ -75,17 +75,15 @@ export const getProfileByIdAsync = createAsyncThunk<
   Profile,
   { userId: string },
   { rejectValue: AxiosError<{ errors: { msg: string }[] }> }
->("profile/get:id", async (params) => {
-  const res = await axios.get<ProfileType>(
-    `/api/profile/user/${params.userId}`
-  );
+>("profile/get:id", async ({ userId }) => {
+  const res = await axios.get<ProfileType>(`/api/profile/user/${userId}`);
   return transformProfile(res.data);
 });
 
 // Get All Profiles Action
 export const getProfilesAsync = createAsyncThunk<
   Profile[],
-  {},
+  undefined,
   { rejectValue: AxiosError<{ errors: { msg: string }[] }> }
 >("profile/get/all", async () => {
   const res = await axios.get<ProfileType[]>("/api/profile");

@@ -8,9 +8,6 @@ import { deleteAccountAsync } from "../../reducers/profile";
 import { DashboardActions } from "./DashboardActions";
 import Educations from "./Education";
 import Experience from "./Experience";
-// import { DashboardActions } from "./DashboardActions";
-// import Experience from "./Experience";
-// import Educations from "./Education";
 
 const Dashboard: FC = (): JSX.Element => {
   const dispatch = useAppDispatch();
@@ -47,10 +44,7 @@ const Dashboard: FC = (): JSX.Element => {
             First step to connect with other developers, please setup your
             profile
           </p>
-          <Link
-            to="/create-profile"
-            state={{ edit: false }}
-            className="btn btn-primary my-1">
+          <Link to="/create-profile" className="btn btn-primary my-1">
             Create Profile
           </Link>
         </Fragment>

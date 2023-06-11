@@ -6,6 +6,14 @@ import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import PrivateRoute from "../components/routing/PrivateRoute";
 import Dashboard from "../components/dashboard/Dashboard";
+import CreateProfile from "../components/profile-form/CreateProfile";
+import AddExperience from "../components/profile-form/AddExperience";
+import AddEducation from "../components/profile-form/AddEducation";
+import UpdateProfile from "../components/profile-form/UpdateProfile";
+import Profiles from "../components/profiles/Profiles";
+import Profile from "../components/profile/Profile";
+import Posts from "../components/posts/Posts";
+import Post from "../components/post/Post";
 
 export const routes: { path: string; Component: () => JSX.Element }[] = [
   { path: "/", Component: () => <Landing /> },
@@ -19,7 +27,7 @@ export const routes: { path: string; Component: () => JSX.Element }[] = [
       </PrivateRoute>
     ),
   },
-  /*{
+  {
     path: "/create-profile",
     Component: () => (
       <PrivateRoute>
@@ -31,7 +39,7 @@ export const routes: { path: string; Component: () => JSX.Element }[] = [
     path: "/edit-profile",
     Component: () => (
       <PrivateRoute>
-        <CreateProfile />
+        <UpdateProfile />
       </PrivateRoute>
     ),
   },
@@ -69,7 +77,6 @@ export const routes: { path: string; Component: () => JSX.Element }[] = [
       </PrivateRoute>
     ),
   },
-  */
 ];
 const MainLayout: FC = (): JSX.Element => {
   return <Navbar />;

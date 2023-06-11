@@ -1,22 +1,22 @@
 import { Fragment, FC, JSX } from "react";
-import moment from "moment";
+import Moment from "react-moment";
 import { EducationType } from "../../../../models/Profile";
-import { WithId } from "../../utiles/models";
+import { transformEducation } from "../../utiles/models";
 import { deleteEducationAsync } from "../../reducers/profile";
 import { useAppDispatch } from "../../config/GlobalStateConfig";
 
 const Educations: FC<{ education: EducationType[] }> = ({
   education,
 }): JSX.Element => {
-  const educationWithId = education as WithId<EducationType>[];
+  const educationWithId = education.map((edu) => transformEducation(edu));
   const dispatch = useAppDispatch();
   const educations = educationWithId.map((edu) => (
     <tr key={edu.id}>
       <td>{edu.school}</td>
       <td className="hide-sm">{edu.degree}</td>
       <td>
-        {moment(edu.from).format("YYYY/MM/DD")}-{" "}
-        {edu.to === null ? " Now" : moment(edu.to).format("YYYY/MM/DD")}
+        <Moment format="DD/MM/YYYY">{edu.from}</Moment> -{" "}
+        {edu.to ? "Now" : <Moment format="DD/MM/YYYY">{edu.to}</Moment>}
       </td>
       <td>
         <button

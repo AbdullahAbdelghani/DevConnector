@@ -22,7 +22,7 @@ const initialState: PostState = {
 };
 
 // create Post Action
-const createPostAsync = createAsyncThunk<
+export const createPostAsync = createAsyncThunk<
   void,
   { text: string; id: string },
   { rejectValue: AxiosError }
@@ -40,7 +40,7 @@ const createPostAsync = createAsyncThunk<
 });
 
 // Get All Posts Action
-const getPostsAsync = createAsyncThunk<
+export const getPostsAsync = createAsyncThunk<
   Post[],
   undefined,
   { rejectValue: AxiosError }
@@ -50,7 +50,7 @@ const getPostsAsync = createAsyncThunk<
 });
 
 // Get Post By ID Action
-const getPostByIdAsync = createAsyncThunk<
+export const getPostByIdAsync = createAsyncThunk<
   Post,
   { postId: string },
   { rejectValue: AxiosError }
@@ -60,7 +60,7 @@ const getPostByIdAsync = createAsyncThunk<
 });
 
 // Add Comment Action
-const addCommentAsync = createAsyncThunk<
+export const addCommentAsync = createAsyncThunk<
   Post,
   { postId: string; text: string },
   { rejectValue: AxiosError }
@@ -81,7 +81,7 @@ const addCommentAsync = createAsyncThunk<
 });
 
 // Like Post Action
-const likePostAsync = createAsyncThunk<
+export const likePostAsync = createAsyncThunk<
   void,
   { id: string },
   { rejectValue: AxiosError }
@@ -91,7 +91,7 @@ const likePostAsync = createAsyncThunk<
 });
 
 // Unlike Post Action
-const unlikePostAsync = createAsyncThunk<
+export const unlikePostAsync = createAsyncThunk<
   void,
   { postId: string },
   { rejectValue: AxiosError }
@@ -101,17 +101,18 @@ const unlikePostAsync = createAsyncThunk<
 });
 
 // Delete Comment Action
-const deleteCommentAsync = createAsyncThunk<
+export const deleteCommentAsync = createAsyncThunk<
   void,
   { postId: string; commentId: string },
   { rejectValue: AxiosError }
 >("post/delete/comment", async ({ postId, commentId }, { dispatch }) => {
   await axios.delete(`/api/posts/comment/${postId}/${commentId}`);
   dispatch(getPostByIdAsync({ postId }));
+  addAlert(dispatch, { msg: "Comment Deleted", alertType: "success" });
 });
 
 // Delete Post Action
-const deletePostAsync = createAsyncThunk<
+export const deletePostAsync = createAsyncThunk<
   void,
   { postId: string },
   { rejectValue: AxiosError }
@@ -226,7 +227,7 @@ export const postSlice = createSlice({
 
     // Like Post
     builder.addCase(likePostAsync.pending, (state) => {
-      state.loading = true;
+      //state.loading = true;
     });
     builder.addCase(likePostAsync.fulfilled, (state) => {
       state.loading = false;
@@ -250,7 +251,7 @@ export const postSlice = createSlice({
 
     // Unlike Post
     builder.addCase(unlikePostAsync.pending, (state) => {
-      state.loading = true;
+      //state.loading = true;
     });
     builder.addCase(unlikePostAsync.fulfilled, (state) => {
       state.loading = false;
@@ -274,7 +275,7 @@ export const postSlice = createSlice({
 
     // Delete Comment
     builder.addCase(deleteCommentAsync.pending, (state) => {
-      state.loading = true;
+      // state.loading = true;
     });
     builder.addCase(deleteCommentAsync.fulfilled, (state) => {
       state.loading = false;
