@@ -1,29 +1,14 @@
-import { PropsWithChildren } from "react";
+import { FC, PropsWithChildren } from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Navbar from "../components/layout/Navbar";
-import { useAppDispatch, useAppSelector } from "./GlobalStateConfig";
-import { loginAsync } from "../reducers/auth";
+import Landing from "../components/layout/Landing";
+import Register from "../components/auth/Register";
+import Login from "../components/auth/Login";
+import PrivateRoute from "../components/routing/PrivateRoute";
+import Dashboard from "../components/dashboard/Dashboard";
 
-const TempComponent = () => {
-  const auth = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
-
-  console.log(auth);
-  return (
-    <button
-      onClick={async () =>
-        await dispatch(
-          loginAsync({ email: "123@gmail.com", password: "1231231" })
-        )
-      }>
-      Login
-    </button>
-  );
-};
-
-export const routes = [
-  { path: "/", Component: () => <TempComponent /> },
-  /*{ path: "/", Component: () => <Landing /> },
+export const routes: { path: string; Component: () => JSX.Element }[] = [
+  { path: "/", Component: () => <Landing /> },
   { path: "/register", Component: () => <Register /> },
   { path: "/login", Component: () => <Login /> },
   {
@@ -34,7 +19,7 @@ export const routes = [
       </PrivateRoute>
     ),
   },
-  {
+  /*{
     path: "/create-profile",
     Component: () => (
       <PrivateRoute>
@@ -86,37 +71,24 @@ export const routes = [
   },
   */
 ];
-const MainLayout = () => {
+const MainLayout: FC = (): JSX.Element => {
   return <Navbar />;
 };
-const AppRoutes = () => {
+const AppRoutes: FC = (): JSX.Element => {
   return (
     <Routes>
       <Route element={<MainLayout />}>
-        <Route
-          path="*"
-          element={
-            <div className="container">
-              <h1>Not Found</h1>
-            </div>
-          }
-        />
+        <Route path="*" element={<h1>Not Found</h1>} />
         {routes.map(({ path, Component }) => (
-          <Route
-            key={path}
-            path={path}
-            element={
-              <div className="container">
-                <Component />
-              </div>
-            }
-          />
+          <Route key={path} path={path} element={<Component />} />
         ))}
       </Route>
     </Routes>
   );
 };
-export const RouterConfig = ({ children }: PropsWithChildren) => {
+export const RouterConfig: FC<PropsWithChildren> = ({
+  children,
+}): JSX.Element => {
   return (
     <BrowserRouter>
       <AppRoutes />

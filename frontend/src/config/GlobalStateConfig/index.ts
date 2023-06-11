@@ -2,15 +2,15 @@ import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { authSlice } from "../../reducers/auth";
 import { alertSlice } from "../../reducers/alert";
-// import { profileSlice } from "../../reducers/profile";
-// import { postSlice } from "../../reducers/post";
+import { profileSlice } from "../../reducers/profile";
+import { postSlice } from "../../reducers/post";
 
 export const store = configureStore({
   reducer: {
     auth: authSlice.reducer,
     alert: alertSlice.reducer,
-    // profile: profileSlice.reducer,
-    // post: postSlice.reducer,
+    profile: profileSlice.reducer,
+    post: postSlice.reducer,
   },
 });
 

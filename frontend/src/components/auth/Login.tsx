@@ -1,18 +1,13 @@
 import React, { useState, FC, JSX } from "react";
-import { connect } from "react-redux";
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import { login } from "../../actions/auth";
 import Alert from "../layout/Alert";
 import { Navigate } from "react-router-dom";
-import { GlobalStateType } from "../../reducers";
+import { loginAsync } from "../../reducers/auth";
+import { useAppDispatch, useAppSelector } from "../../config/GlobalStateConfig";
 
-type Props = {
-  login: (email: string, password: string) => void;
-  isAuthenticated: boolean;
-};
-
-const Login: FC<Props> = ({ login, isAuthenticated }): JSX.Element => {
+const Login: FC = (): JSX.Element => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<{ email: string; password: string }>(
     {
       email: "",
@@ -25,7 +20,7 @@ const Login: FC<Props> = ({ login, isAuthenticated }): JSX.Element => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    login(email, password);
+    dispatch(loginAsync({ email, password }));
   };
 
   if (isAuthenticated) {
@@ -68,8 +63,4 @@ const Login: FC<Props> = ({ login, isAuthenticated }): JSX.Element => {
   );
 };
 
-const mapStateToProps = (state: GlobalStateType) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { login })(Login);
+export default Login;

@@ -5,7 +5,7 @@ export type Alert = {
   msg?: string;
   alertType?: string;
 };
-const initialState: { data: (Alert & { id: string })[] } = { data: [] };
+const initialState: { alerts: (Alert & { id: string })[] } = { alerts: [] };
 
 export const addAlert = (disaptch: Dispatch, alert: Alert) => {
   const id = v4();
@@ -19,10 +19,12 @@ export const alertSlice = createSlice({
   reducers: {
     addAlert: (state, action) => {
       const payload: Alert & { id: string } = action.payload;
-      state.data.push(payload);
+      state.alerts.push(payload);
     },
     removeAlert: (state, action) => {
-      state.data = state.data.filter((alert) => alert.id !== action.payload.id);
+      state.alerts = state.alerts.filter(
+        (alert) => alert.id !== action.payload.id
+      );
     },
   },
 });

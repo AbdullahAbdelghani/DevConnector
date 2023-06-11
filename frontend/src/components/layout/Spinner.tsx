@@ -1,4 +1,4 @@
-import React, { Fragment, FC, JSX } from "react";
+import { Fragment, FC, JSX } from "react";
 import spinner from "./spinner.gif";
 
 const Spinner: FC = (): JSX.Element => (

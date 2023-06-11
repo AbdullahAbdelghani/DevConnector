@@ -1,7 +1,7 @@
-import React from "react";
+import { FC, JSX } from "react";
 import { Link } from "react-router-dom";
 
-export const DashboardActions = () => {
+export const DashboardActions: FC = (): JSX.Element => {
   return (
     <div className="dash-buttons my-1">
       <Link to="/edit-profile" className="btn btn-light" state={{ edit: true }}>

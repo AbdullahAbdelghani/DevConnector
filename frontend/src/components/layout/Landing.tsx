@@ -1,14 +1,10 @@
-import React, { FC, JSX } from "react";
+import { FC, JSX } from "react";
 import { Link } from "react-router-dom";
 import { Navigate } from "react-router-dom";
-import { connect } from "react-redux";
-import { GlobalStateType } from "../../reducers";
+import { useAppSelector } from "../../config/GlobalStateConfig";
 
-type Props = {
-  isAuthenticated: boolean;
-};
-
-const landing: FC<Props> = ({ isAuthenticated }): JSX.Element => {
+const Landing: FC = (): JSX.Element => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   return isAuthenticated ? (
     <Navigate to="/dashboard" />
   ) : (
@@ -33,9 +29,4 @@ const landing: FC<Props> = ({ isAuthenticated }): JSX.Element => {
     </section>
   );
 };
-
-const mapStateToProps = (state: GlobalStateType) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps)(landing);
+export default Landing;

@@ -1,23 +1,24 @@
-import React, { Fragment, useEffect } from "react";
+import { FC, JSX, Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { deleteAccount, getCurrentProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import Alert from "../layout/Alert";
+import { getCurrentProfileAsync } from "../../reducers/profile";
+import { useAppDispatch, useAppSelector } from "../../config/GlobalStateConfig";
+import { deleteAccountAsync } from "../../reducers/profile";
 import { DashboardActions } from "./DashboardActions";
-import Experience from "./Experience";
 import Educations from "./Education";
+import Experience from "./Experience";
+// import { DashboardActions } from "./DashboardActions";
+// import Experience from "./Experience";
+// import Educations from "./Education";
 
-const Dashboard = ({
-  getCurrentProfile,
-  deleteAccount,
-  auth: { user },
-  profile: { profile, loading },
-}) => {
+const Dashboard: FC = (): JSX.Element => {
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
+    dispatch(getCurrentProfileAsync());
+  }, [dispatch]);
+  const { user } = useAppSelector((state) => state.auth);
+  const { loading, profile } = useAppSelector((state) => state.profile);
   return loading && profile === null ? (
     <Spinner />
   ) : (
@@ -30,10 +31,12 @@ const Dashboard = ({
       {profile !== null ? (
         <Fragment>
           <DashboardActions />
-          <Experience experience={profile.experience} />
           <Educations education={profile.education} />
+          <Experience experience={profile.experience} />
           <div className="my-2">
-            <button className="btn btn-danger" onClick={() => deleteAccount()}>
+            <button
+              className="btn btn-danger"
+              onClick={() => dispatch(deleteAccountAsync())}>
               <i className="fas fas-user-minus"></i> Delete My Account
             </button>
           </div>
@@ -56,18 +59,4 @@ const Dashboard = ({
   );
 };
 
-Dashboard.propTypes = {
-  getCurrentProfile: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired,
-};
-
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-  profile: state.profile,
-  deleteAccount: PropTypes.func.isRequired,
-});
-
-export default connect(mapStateToProps, { deleteAccount, getCurrentProfile })(
-  Dashboard
-);
+export default Dashboard;

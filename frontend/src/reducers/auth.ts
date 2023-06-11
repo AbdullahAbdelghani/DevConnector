@@ -3,9 +3,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { User, transformUser } from "../utiles/models";
 import { setAuthToken } from "../utiles/setAuthToken";
 import { UserType } from "../../../models/User";
-import { useAppDispatch } from "../config/GlobalStateConfig";
-import { addAlert, alertSlice } from "./alert";
-// import { alertAsync } from "./alert";
+import { addAlert } from "./alert";
 
 export type AuthState = {
   token?: string;
@@ -20,7 +18,7 @@ const initialState: AuthState = (() => {
   return {
     token,
     isAuthenticated: false,
-    loading: true,
+    loading: false,
     user: undefined,
   };
 })();
@@ -56,10 +54,10 @@ export const loginAsync = createAsyncThunk<
       user: user,
       token,
     };
-  } catch (e) {
-    if (isAxiosError(e)) {
-      if (e.response?.data.errors) {
-        const errors: { msg: string }[] = e.response?.data.errors;
+  } catch (err) {
+    if (isAxiosError(err)) {
+      if (err.response?.data.errors) {
+        const errors: { msg: string }[] = err.response?.data.errors;
         if (errors)
           errors.forEach((error) => {
             addAlert(dispatch, {
@@ -68,8 +66,8 @@ export const loginAsync = createAsyncThunk<
             });
           });
       }
-      throw e;
-    } else throw e;
+      throw err;
+    } else throw err;
   }
 });
 
@@ -79,24 +77,40 @@ export const registerAsync = createAsyncThunk<
   {
     rejectValue: AxiosError<{ errors: { msg: string }[] }>;
   }
->("auth/register", async (params) => {
-  const { name, email, password } = params;
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  const body = JSON.stringify({ name, email, password });
-  const {
-    data: { token },
-  } = await axios.post<{ token: string }>("/api/auth", body, config);
-  localStorage.setItem("token", token);
-  setAuthToken(token);
-  const user = await loadUserAsync();
-  return {
-    user: user,
-    token,
-  };
+>("auth/register", async (params, { dispatch }) => {
+  try {
+    const { name, email, password } = params;
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    const body = JSON.stringify({ name, email, password });
+    const {
+      data: { token },
+    } = await axios.post<{ token: string }>("/api/auth", body, config);
+    localStorage.setItem("token", token);
+    setAuthToken(token);
+    const user = await loadUserAsync();
+    return {
+      user: user,
+      token,
+    };
+  } catch (err) {
+    if (isAxiosError(err)) {
+      if (err.response?.data.errors) {
+        const errors: { msg: string }[] = err.response?.data.errors;
+        if (errors)
+          errors.forEach((error) => {
+            addAlert(dispatch, {
+              msg: error.msg,
+              alertType: "danger",
+            });
+          });
+      }
+      throw err;
+    } else throw err;
+  }
 });
 
 export const authSlice = createSlice({
@@ -121,7 +135,7 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
     });
-    builder.addCase(loginAsync.rejected, (state, response) => {
+    builder.addCase(loginAsync.rejected, (state) => {
       localStorage.removeItem("token");
       state.user = undefined;
       state.token = undefined;
@@ -138,26 +152,12 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.user = action.payload.user;
     });
-    builder.addCase(registerAsync.rejected, (state, response) => {
+    builder.addCase(registerAsync.rejected, (state) => {
       localStorage.removeItem("token");
       state.user = undefined;
       state.token = undefined;
       state.isAuthenticated = false;
       state.loading = false;
-      if (response.payload?.response?.data.errors) {
-        const errors: { msg: string }[] =
-          response.payload?.response?.data.errors;
-        if (errors)
-          errors.forEach((error) => {
-            const dispatch = useAppDispatch();
-            dispatch(
-              alertSlice.actions.addAlert({
-                msg: error.msg,
-                alertType: "danger",
-              })
-            );
-          });
-      }
     });
   },
 });

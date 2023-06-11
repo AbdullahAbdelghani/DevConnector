@@ -1,18 +1,10 @@
 import React, { useState, FC, JSX } from "react";
-import { connect } from "react-redux";
-import { setAlert } from "../../actions/alert";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import Alert from "../layout/Alert";
-import { register, RegisterProps } from "../../actions/auth";
 import { Navigate } from "react-router-dom";
-import { GlobalStateType } from "../../reducers";
-
-type Props = {
-  setAlert: (msg: string, alertType?: string) => void;
-  register: (props: RegisterProps) => void;
-  isAuthenticated: boolean;
-};
+import { addAlert } from "../../reducers/alert";
+import { registerAsync } from "../../reducers/auth";
+import { useAppDispatch, useAppSelector } from "../../config/GlobalStateConfig";
 
 type RegisterForm = {
   name: string;
@@ -21,11 +13,9 @@ type RegisterForm = {
   password2: string;
 };
 
-const Register: FC<Props> = ({
-  setAlert,
-  register,
-  isAuthenticated,
-}): JSX.Element => {
+const Register: FC = (): JSX.Element => {
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<RegisterForm>({
     name: "",
     email: "",
@@ -41,8 +31,8 @@ const Register: FC<Props> = ({
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     password !== password2
-      ? setAlert("Password don't match", "danger")
-      : register({ name, email, password });
+      ? addAlert(dispatch, { msg: "Password don't match", alertType: "danger" })
+      : dispatch(registerAsync({ name, email, password }));
   };
 
   if (isAuthenticated) {
@@ -110,8 +100,4 @@ const Register: FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: GlobalStateType) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-});
-
-export default connect(mapStateToProps, { setAlert, register })(Register);
+export default Register;

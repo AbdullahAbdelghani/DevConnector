@@ -1,11 +1,12 @@
 import { Fragment, FC, JSX } from "react";
 import { Outlet, NavLink } from "react-router-dom";
 import { authSlice } from "../../reducers/auth";
-import { useAppSelector } from "../../config/GlobalStateConfig";
+import { useAppSelector, useAppDispatch } from "../../config/GlobalStateConfig";
 
 const Navbar: FC = (): JSX.Element => {
   const { loading, isAuthenticated } = useAppSelector((state) => state.auth);
-  const logout = () => authSlice.actions.logout;
+  const dispatch = useAppDispatch();
+  const logout = dispatch(authSlice.actions.logout);
   const authLinks: JSX.Element = (
     <ul>
       <li>
@@ -21,7 +22,7 @@ const Navbar: FC = (): JSX.Element => {
         </NavLink>
       </li>
       <li>
-        <NavLink onClick={logout} to="/">
+        <NavLink onClick={() => logout()} to="/">
           <i className="fas fa-sign-out-alt"></i>{" "}
           <span className="hide-sm">Logout</span>
         </NavLink>
