@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "start": "ts-node --respawn server.ts",
-    "build": "npm install -g ts-node",
+    "build": "npm install ts-node",
     "server": "ts-node-dev --respawn server.ts",
     "frontend": "npm start --prefix frontend",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
