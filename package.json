@@ -8,7 +8,6 @@
     "server": "ts-node-dev --respawn server.ts",
     "frontend": "npm start --prefix frontend",
     "build": "cd frontend && npm install && npm run build",
-    "dev": "concurrently \"npm run server\" \"npm run frontend\"",
     "clean": "rm -rf node_modules && cd frontend && rm -rf node_modules && rm -rf build"
   },
   "author": "Abdullah Muhammad",
