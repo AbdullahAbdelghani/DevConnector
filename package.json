@@ -4,17 +4,16 @@
   "description": "learining mern stack",
   "main": "server.ts",
   "scripts": {
-    "start": "ts-node-dev --respawn server.ts ",
+    "start": "ts-node-dev --respawn server.ts",
     "server": "ts-node-dev --respawn server.ts",
     "frontend": "npm start --prefix frontend",
-    "frontendinstall": "npm install --prefix frontend",
+    "build": "cd frontend && npm install && npm run build",
     "dev": "concurrently \"npm run server\" \"npm run frontend\"",
-    "render-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --  prefix frontend"
+    "clean": "rm -rf node_modules && cd frontend && rm -rf node_modules && rm -rf build"
   },
   "author": "Abdullah Muhammad",
   "license": "MIT",
   "dependencies": {
-    "@reduxjs/toolkit": "^1.9.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.2.2",
@@ -25,7 +24,6 @@
     "mongoose": "^5.7.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
-    "react-router-dom": "^6.9.0",
     "request": "^2.88.0",
     "uuidv4": "^6.2.13",
     "validator": "^13.9.0"
